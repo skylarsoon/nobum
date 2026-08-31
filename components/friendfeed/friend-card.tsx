@@ -3,16 +3,24 @@ interface FriendCardProps {
     goalName: string;
     score: number;
     note: string;
+    date: string;
 }
 
-export default function FriendCard({ username, goalName, score, note } : FriendCardProps ){
+export default function FriendCard({ username, goalName, score, note, date } : FriendCardProps ){
     return (
         <div className="rounded border bg-card-note border-black p-4 flex flex-col gap-3"> 
             {/* Top Row */}
-            <div className="flex items-center gap-3">
-                {/* Avatar placeholder */}
-                 <div className="w-10 h-10 rounded-full bg-muted"> </div> 
-                 <span className="font-semibold text-sm"> {username} </span>
+            <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                    {/* Avatar placeholder */}
+                    <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center font-bold text-black/60">
+                        {username.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="font-semibold text-sm">{username}</span>
+                </div>
+
+                {/* The Date! */}
+                <span className="text-xs text-muted-foreground/80 font-medium">{date}</span>
             </div>
 
             {/* Goal description */}

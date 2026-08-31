@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import BottomNav from "@/components/navigation/bottom-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,8 +25,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
-        <div className="w-full max-w-[430px] mx-auto flex flex-col flex-1">
-          {children}
+        <div className="w-full max-w-[430px] mx-auto flex flex-col min-h-screen border-x bg-background relative shadow-sm">
+
+          {/* The actual page content goes here, taking up all available space above the nav */}
+          <div className="flex-1 overflow-y-auto">
+            {children}
+          </div>
+          {/* The Navigation Bar fixed at the bottom */}
+          <BottomNav />
+
         </div>
       </body>
     </html>
