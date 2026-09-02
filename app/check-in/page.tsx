@@ -16,6 +16,12 @@ export default async function CheckInPage() {
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false})
+    
+    const { data: pastCheckIns } = await supabase
+        .from('check_ins')
+        .select('id, goal_id, score, created_at')
+        .eq('user_id', user.id)
+        .order('created_at', {ascending: false});
 
 
 
@@ -33,6 +39,7 @@ export default async function CheckInPage() {
         <main className="flex flex-col px-6 pt-12 pb-8">
             <CheckInForm 
                 goals={goals}
+                pastCheckIns={pastCheckIns || []} 
             />
         </main>
     );

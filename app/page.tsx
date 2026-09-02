@@ -20,10 +20,16 @@ export default async function Home() {
     .limit(20);
 
   return (
-    <main className="flex flex-col items-center">
-      <h1 className="text-4xl font-bold tracking-tight mt-1"> nobum </h1>
-      <h2 className="text-sm font-medium text-muted-foreground mt-1 mb-8"> Recent Activity </h2>
-      <FriendFeed items={(feed as any)|| []}/>
-    </main>
+    <>
+      <div className="sticky top-0 z-10 w-full bg-background/95 backdrop-blur pt-4 pb-4 flex flex-col items-center border-b">
+        <h1 className="text-4xl font-bold tracking-tight">nobum</h1>
+        <h2 className="text-sm font-medium text-muted-foreground mt-1">Recent Activity</h2>
+      </div>
+      <main className="mt-4 pb-12">
+        <div className="mt-4">
+          <FriendFeed items={(feed as any) || []} />
+        </div>
+      </main>
+    </>
   );
 }

@@ -24,8 +24,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background">
-        <div className="w-full max-w-[430px] mx-auto flex flex-col min-h-screen border-x bg-background relative shadow-sm">
+      <body className="h-[100dvh] overflow-hidden flex flex-col bg-background">
+        <div className="w-full max-w-[430px] mx-auto flex flex-col h-full border-x bg-background relative shadow-sm">
 
           {/* The actual page content goes here, taking up all available space above the nav */}
           <div className="flex-1 overflow-y-auto">
