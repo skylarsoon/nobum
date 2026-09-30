@@ -9,7 +9,7 @@ The core philosophy of Nobum is **low-friction, high-psychological safety**: use
 ## Tech Stack
 - **Framework**: Next.js (App Router) running React 19
 - **Styling**: Tailwind CSS + shadcn/ui
-- **Backend/Database**: Supabase (PostgreSQL) - *Pending implementation*
+- **Backend/Database**: Supabase (PostgreSQL)
 - **Hosting**: Vercel
 - **Emails**: Resend
 
@@ -20,7 +20,7 @@ The core philosophy of Nobum is **low-friction, high-psychological safety**: use
 ## Current Features & Future Ideas
 - **Friend Feed (Home)**: A scrolling feed of friends' weekly check-ins, visually styled as minimalistic sticky notes.
 - **Weekly Check-In**: A single-goal self-reflection form featuring a gradient slider and a textarea for leaving contextual notes.
+- **Progress View**: Historical progress visualization to track user progress over time.
+- **Authentication & Persistence**: Supabase integration for real user authentication, sessions, and database persistence.
 - **Future Pipeline**:
-  - Add historical progress charts (e.g., Recharts) to visualize a user's progress over time.
-  - Connect Supabase to handle real user authentication, sessions, and database persistence.
   - Implement social interactions: comments, DMs, or reactions on friends' sticky notes.
