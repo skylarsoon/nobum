@@ -1,26 +1,27 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient, getCurrentUser } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { signOut } from "./actions";
 
 export default async function ProfilePage() {
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = await getCurrentUser()
     if (!user){
         redirect('/login');
     }
 
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-    
-    const { count: goalCount } = await supabase
-        .from('goals')
-        .select('*' , { count: 'exact', head: true})
-        .eq('user_id', user.id);
+    const [{ data: profile }, { count: goalCount }] = await Promise.all([
+        supabase
+            .from('profiles')
+            .select('username')
+            .eq('id', user.id)
+            .single(),
+        supabase
+            .from('goals')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', user.id),
+    ]);
     
     return (
         <main className="flex flex-col px-6 pt-12 pb-8 items-center min-h-full">
@@ -48,9 +49,9 @@ export default async function ProfilePage() {
             {/* Sign Out Button anchored to bottom */}
             <div className="mt-auto w-full pt-12">
                 <form action={signOut}>
-                    <Button variant="destructive" className="w-full rounded-xl h-12 text-md">
+                    <SubmitButton variant="destructive" className="w-full rounded-xl h-12 text-md">
                         Sign Out
-                    </Button>
+                    </SubmitButton>
                 </form>
             </div>
         </main>

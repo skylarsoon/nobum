@@ -17,6 +17,7 @@ export async function submitCheckIn(formData: FormData) {
     const score = parseFloat(scoreString)
     const note = formData.get('note') as string
     const goal_id = formData.get('goal_id') as string
+    const request_id = (formData.get('request_id') as string) || null
 
     // Insert row into check_ins table
     const { error } = await supabase
@@ -25,10 +26,12 @@ export async function submitCheckIn(formData: FormData) {
             user_id: user.id,
             goal_id: goal_id,
             score: score,
-            note: note
+            note: note,
+            request_id: request_id
         })
 
-    if (error) {
+    // 23505 = unique violation: this request_id was already saved (duplicate submit), so treat as success
+    if (error && error.code !== '23505') {
         console.error("Error inserting check-in: ", error)
         throw new Error('Failed to save check-in')
     }

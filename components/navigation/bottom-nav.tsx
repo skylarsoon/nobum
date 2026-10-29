@@ -1,8 +1,19 @@
 "use client"
 
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, PlusSquare, CheckSquare, User, TrendingUp } from "lucide-react";
+
+// Must render inside a <Link> to read that link's pending state
+function NavItemContent({ name, Icon, isActive }: { name: string; Icon: typeof Home; isActive: boolean }) {
+    const { pending } = useLinkStatus();
+    return (
+        <span className={`flex flex-col items-center justify-center space-y-1 ${pending ? "animate-pulse" : ""}`}>
+            <Icon className={`h-5 w-5 ${isActive || pending ? "stroke-[2.5px]" : ""}`} />
+            <span className="text-[10px]">{name}</span>
+        </span>
+    );
+}
 
 export default function BottomNav() {
     const pathname = usePathname();
@@ -28,13 +39,14 @@ export default function BottomNav() {
                         <Link
                             key={item.name}
                             href={item.href}
+                            // Re-clicking the current tab shouldn't trigger another server render
+                            onClick={(e) => { if (isActive) e.preventDefault(); }}
                             className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${isActive
                                     ? "text-foreground font-medium"
                                     : "text-muted-foreground hover:text-foreground"
                                 }`}
                         >
-                            <Icon className={`h-5 w-5 ${isActive ? "stroke-[2.5px]" : ""}`} />
-                            <span className="text-[10px]">{item.name}</span>
+                            <NavItemContent name={item.name} Icon={Icon} isActive={isActive} />
                         </Link>
                     );
                 })}

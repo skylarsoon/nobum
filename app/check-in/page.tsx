@@ -1,27 +1,28 @@
 import CheckInForm from "@/components/check-in/check-in-form";
-import { createClient } from "@/utils/supabase/server";
+import { createClient, getCurrentUser } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function CheckInPage() {
     const supabase = await createClient();
 
-    const { data: {user} } = await supabase.auth.getUser();
+    const user = await getCurrentUser();
     if(!user){
         redirect('/login')
     }
 
     // Fetch all goals for this user
-    const { data: goals } = await supabase
-        .from('goals')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false})
-    
-    const { data: pastCheckIns } = await supabase
-        .from('check_ins')
-        .select('id, goal_id, score, created_at')
-        .eq('user_id', user.id)
-        .order('created_at', {ascending: false});
+    const [{ data: goals }, { data: pastCheckIns }] = await Promise.all([
+        supabase
+            .from('goals')
+            .select('id, title, description, interval')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false }),
+        supabase
+            .from('check_ins')
+            .select('id, goal_id, score, created_at')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false }),
+    ]);
 
 
 

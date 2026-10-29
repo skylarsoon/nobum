@@ -18,7 +18,7 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
-    redirect('/login?message=Could not authenticate user')
+    redirect('/login?message=' + encodeURIComponent('Invalid email or password'))
   }
 
   // Refresh the layout and redirect to the home page (feed)
@@ -46,7 +46,7 @@ export async function signup(formData: FormData) {
   })
 
   if (error) {
-    redirect('/login?message=Could not sign up user')
+    redirect('/signup?message=' + encodeURIComponent(error.message))
   }
 
   revalidatePath('/', 'layout')

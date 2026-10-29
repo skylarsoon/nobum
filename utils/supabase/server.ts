@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { cache } from 'react'
 
 export async function createClient() {
   const cookieStore = await cookies()
@@ -28,3 +29,13 @@ export async function createClient() {
   )
 }
 
+
+// Verifies the session JWT locally (no Auth server round trip when the project uses
+// asymmetric JWT signing keys). Memoized per request. Use supabase.auth.getUser() in
+// mutations where a revoked session must be rejected.
+export const getCurrentUser = cache(async () => {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getClaims()
+  if (!data?.claims) return null
+  return { id: data.claims.sub, email: data.claims.email as string | undefined }
+})

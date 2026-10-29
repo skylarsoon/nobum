@@ -2,7 +2,8 @@
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button";
+import { RequestIdInput } from "@/components/ui/request-id-input";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { submitCheckIn } from "@/app/check-in/actions";
 
 
@@ -43,6 +44,7 @@ export default function CheckInForm({ goals, pastCheckIns } : CheckInFormProps) 
 
     return (
         <form action={submitCheckIn} className="flex flex-col gap-6">
+            <RequestIdInput />
             <input type="hidden" name="score" value={rating} /> 
             <input type="hidden" name="goal_id" value={selectedGoal.id}/>
 
@@ -130,7 +132,7 @@ export default function CheckInForm({ goals, pastCheckIns } : CheckInFormProps) 
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
             />
-            <Button type="submit"> Submit </Button>
+            <SubmitButton>Submit</SubmitButton>
         </form>
     );
 }

@@ -1,5 +1,6 @@
 import { createGoal } from "./actions"
-import { Button } from "@/components/ui/button"
+import { RequestIdInput } from "@/components/ui/request-id-input"
+import { SubmitButton } from "@/components/ui/submit-button"
 import { Textarea } from "@/components/ui/textarea"
 
 export default function AddGoalPage(){
@@ -8,6 +9,7 @@ export default function AddGoalPage(){
             <h1 className="text-3xl font-bold mb-6">New Goal</h1>
 
             <form action={createGoal} className="flex flex-col gap-5" >
+                <RequestIdInput />
                 {/* Title */}
                 <div className="flex flex-col gap-2">
                     <label className="text-sm font-medium">Goal Title</label>
@@ -41,7 +43,7 @@ export default function AddGoalPage(){
                         <option value="month">Monthly</option>
                     </select>
                 </div>
-                <Button type="submit" className="mt-4">Save Goal</Button>
+                <SubmitButton className="mt-4">Save Goal</SubmitButton>
             </form>
         </main>
     )
