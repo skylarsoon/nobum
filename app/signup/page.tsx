@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { signup } from '@/app/login/actions'
+import { SideDoodles } from '@/components/landing/side-doodles'
 import { SubmitButton } from '@/components/ui/submit-button'
 
 export default async function SignupPage(props: { searchParams: Promise<{ message?: string }> }) {
@@ -7,6 +8,7 @@ export default async function SignupPage(props: { searchParams: Promise<{ messag
 
   return (
     <main className="flex flex-col flex-1 justify-center items-center px-6">
+      <SideDoodles />
       <form action={signup} className="flex flex-col w-full gap-4 text-foreground">
         <div className="mb-4">
           <h1 className="text-3xl font-bold">Create account</h1>
