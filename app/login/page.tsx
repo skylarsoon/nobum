@@ -2,14 +2,17 @@ import Link from 'next/link'
 import { login } from './actions'
 import { SideDoodles } from '@/components/landing/side-doodles'
 import { SubmitButton } from '@/components/ui/submit-button'
+import { safeNext, withNext } from '@/utils/safe-next'
 
-export default async function LoginPage(props: { searchParams: Promise<{ message?: string }> }) {
+export default async function LoginPage(props: { searchParams: Promise<{ message?: string; next?: string }> }) {
   const searchParams = await props.searchParams
+  const next = safeNext(searchParams?.next)
 
   return (
     <main className="flex flex-col flex-1 justify-center items-center px-6">
       <SideDoodles />
       <form action={login} className="flex flex-col w-full gap-4 text-foreground">
+        <input type="hidden" name="next" value={next} />
         <div className="mb-4">
           <h1 className="text-3xl font-bold">Welcome back</h1>
           <p className="text-sm text-muted-foreground mt-1">Sign in to your Nobum account.</p>
@@ -51,7 +54,7 @@ export default async function LoginPage(props: { searchParams: Promise<{ message
 
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-foreground font-medium underline">
+          <Link href={withNext('/signup', next)} className="text-foreground font-medium underline">
             Create one
           </Link>
         </p>

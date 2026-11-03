@@ -16,12 +16,26 @@ export async function createGoal(formData: FormData) {
     const description = formData.get('description') as string
     const interval = formData.get('interval') as string
     const request_id = (formData.get('request_id') as string) || null
+    // Empty means a personal goal; otherwise it's a sub-goal in that group
+    const group_id = (formData.get('group_id') as string) || null
 
     if (!title?.trim()) {
         throw new Error('Goal title is required')
     }
     if (!['day', 'week', 'month'].includes(interval)) {
         throw new Error('Invalid interval')
+    }
+    // RLS also enforces this, but check here for a clear error message
+    if (group_id) {
+        const { data: membership } = await supabase
+            .from('group_members')
+            .select('group_id')
+            .eq('group_id', group_id)
+            .eq('user_id', user.id)
+            .maybeSingle()
+        if (!membership) {
+            throw new Error("You're not a member of that group")
+        }
     }
 
     const { error } = await supabase
@@ -31,6 +45,7 @@ export async function createGoal(formData: FormData) {
             title: title,
             description: description,
             interval: interval,
+            group_id: group_id,
             request_id: request_id
         })
     

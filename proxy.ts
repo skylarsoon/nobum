@@ -31,8 +31,10 @@ export async function proxy(request: NextRequest) {
 
   if (!data?.claims && !isAuthPage) {
     const url = request.nextUrl.clone()
+    // Remember where they were headed (e.g. an invite link) so login/signup can send them back
+    const destination = pathname + request.nextUrl.search
     url.pathname = '/login'
-    url.search = ''
+    url.search = destination === '/' ? '' : `?next=${encodeURIComponent(destination)}`
     return NextResponse.redirect(url)
   }
 

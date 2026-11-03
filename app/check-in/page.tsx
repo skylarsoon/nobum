@@ -1,4 +1,6 @@
+import Link from "next/link";
 import CheckInForm from "@/components/check-in/check-in-form";
+import { buttonVariants } from "@/components/ui/button";
 import { createClient, getCurrentUser } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -14,7 +16,7 @@ export default async function CheckInPage() {
     const [{ data: goals }, { data: pastCheckIns }] = await Promise.all([
         supabase
             .from('goals')
-            .select('id, title, description, interval')
+            .select('id, title, description, interval, groups(name)')
             .eq('user_id', user.id)
             .order('created_at', { ascending: false }),
         supabase
@@ -29,9 +31,13 @@ export default async function CheckInPage() {
     // 3. If they don't have a goal yet, handle it gracefully so the page doesn't crash
     if (!goals || goals.length === 0) {
         return (
-            <main className="flex flex-col px-6 pt-12 pb-8">
+            <main className="flex flex-col px-6 pt-12 pb-8 gap-3">
                 <h1 className="text-2xl font-bold">No goal found!</h1>
-                <p>Please create a goal before checking in.</p>
+                <p className="text-sm text-muted-foreground">You need a goal before you can check in.</p>
+                <div className="flex gap-2">
+                    <Link href="/add-goal" className={buttonVariants({ size: "lg" })}>Create a goal</Link>
+                    <Link href="/groups" className={buttonVariants({ variant: "outline", size: "lg" })}>Join a group</Link>
+                </div>
             </main>
         );
     }

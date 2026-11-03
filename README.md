@@ -18,9 +18,11 @@ The core philosophy of Nobum is **low-friction, high-psychological safety**: use
 - **Desktop Experience**: Features a maximum container width (~430px) that simulates a mobile screen when viewed on desktop layouts.
 
 ## Current Features & Future Ideas
-- **Friend Feed (Home)**: A scrolling feed of friends' weekly check-ins, visually styled as minimalistic sticky notes.
+- **Friend Feed (Home)**: A scrolling feed of check-ins, visually styled as minimalistic sticky notes. It shows everything you can access and has a filter for the main feed (non-group check-ins) or any one of your groups.
+- **Groups**: Create a group with one overarching goal (e.g. "Recruiting") and invite friends with a link. Each member adds their own sub-goals under it (e.g. "1 LeetCode problem a day") and checks in with the same 1-10 rating. Group goals and check-ins are visible to members only; personal ones stay in the main feed. Roles are `owner`, `admin` and `member`.
 - **Weekly Check-In**: A single-goal self-reflection form featuring a gradient slider and a textarea for leaving contextual notes.
 - **Progress View**: Historical progress visualization to track user progress over time.
 - **Authentication & Persistence**: Supabase integration for real user authentication, sessions, and database persistence.
+- **Database**: Schema, RLS policies and functions live in `supabase/migrations/` (apply with the Supabase CLI). Regenerate `types/database.ts` after schema changes.
 - **Future Pipeline**:
   - Implement social interactions: comments, DMs, or reactions on friends' sticky notes.

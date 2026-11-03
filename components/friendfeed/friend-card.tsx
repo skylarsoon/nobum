@@ -1,12 +1,13 @@
 interface FriendCardProps {
     username: string;
     goalName: string;
+    groupName?: string;
     score: number;
     note: string;
     date: string;
 }
 
-export default function FriendCard({ username, goalName, score, note, date } : FriendCardProps ){
+export default function FriendCard({ username, goalName, groupName, score, note, date } : FriendCardProps ){
     return (
         <div className="rounded border bg-card-note border-black p-4 flex flex-col gap-3"> 
             {/* Top Row */}
@@ -22,6 +23,13 @@ export default function FriendCard({ username, goalName, score, note, date } : F
                 {/* The Date! */}
                 <span className="text-xs text-muted-foreground/80 font-medium">{date}</span>
             </div>
+
+            {/* Group badge: only for check-ins on a group's sub-goal */}
+            {groupName && (
+                <span className="self-start rounded-full border border-black/20 bg-black/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-black/60">
+                    {groupName}
+                </span>
+            )}
 
             {/* Goal description */}
             <p className="text-sm text-muted-foreground"> 

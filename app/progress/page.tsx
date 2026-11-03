@@ -13,7 +13,7 @@ export default async function ProgressPage(){
     const [{ data: goals }, { data: checkIns }] = await Promise.all([
         supabase
             .from('goals')
-            .select('*')
+            .select('*, groups(name)')
             .eq('user_id', user.id)
             .order('created_at', { ascending: false }),
         supabase

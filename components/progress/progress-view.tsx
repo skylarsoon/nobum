@@ -6,6 +6,8 @@ interface Goal {
     id: string;
     title: string;
     interval: string;
+    // Set when this is a sub-goal inside a group
+    groups?: { name: string } | null;
 }
 
 interface CheckIn {
@@ -13,7 +15,7 @@ interface CheckIn {
     goal_id: string;
     score: number;
     created_at: string;
-    note: string;
+    note: string | null;
 }
 
 export default function ProgressView({ goals, checkIns }: { goals: Goal[], checkIns: CheckIn[] }){
@@ -87,7 +89,7 @@ export default function ProgressView({ goals, checkIns }: { goals: Goal[], check
                     <option value="all">All Goals</option>
                     {goals.map((goal) => (
                         <option key={goal.id} value={goal.id}>
-                            {goal.title}
+                            {goal.groups ? `${goal.title} (${goal.groups.name})` : goal.title}
                         </option>
                     ))}
                 </select>

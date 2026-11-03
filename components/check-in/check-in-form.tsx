@@ -11,8 +11,10 @@ import { submitCheckIn } from "@/app/check-in/actions";
 interface Goal {
     id: string;
     title: string;
-    description: string;
+    description: string | null;
     interval: string;
+    // Set when this is a sub-goal inside a group
+    groups: { name: string } | null;
 }
 
 interface PastCheckIn{
@@ -58,7 +60,7 @@ export default function CheckInForm({ goals, pastCheckIns } : CheckInFormProps) 
                         >
                             {goals.map((goal) => (
                                 <option key={goal.id} value={goal.id}>
-                                    {goal.title}
+                                    {goal.groups ? `${goal.title} (${goal.groups.name})` : goal.title}
                                 </option>
                             ))}
 
