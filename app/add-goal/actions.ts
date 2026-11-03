@@ -17,6 +17,13 @@ export async function createGoal(formData: FormData) {
     const interval = formData.get('interval') as string
     const request_id = (formData.get('request_id') as string) || null
 
+    if (!title?.trim()) {
+        throw new Error('Goal title is required')
+    }
+    if (!['day', 'week', 'month'].includes(interval)) {
+        throw new Error('Invalid interval')
+    }
+
     const { error } = await supabase
         .from('goals')
         .insert({

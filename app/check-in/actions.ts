@@ -19,6 +19,23 @@ export async function submitCheckIn(formData: FormData) {
     const goal_id = formData.get('goal_id') as string
     const request_id = (formData.get('request_id') as string) || null
 
+    // Never trust the client: enforce the slider's 1-10 range and the goal's ownership
+    if (!Number.isFinite(score) || score < 1 || score > 10) {
+        throw new Error('Score must be between 1 and 10')
+    }
+    if (!goal_id) {
+        throw new Error('Please choose a goal')
+    }
+    const { data: goal } = await supabase
+        .from('goals')
+        .select('id')
+        .eq('id', goal_id)
+        .eq('user_id', user.id)
+        .maybeSingle()
+    if (!goal) {
+        throw new Error('Goal not found')
+    }
+
     // Insert row into check_ins table
     const { error } = await supabase
         .from('check_ins')
