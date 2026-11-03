@@ -5,9 +5,11 @@ interface FriendCardProps {
     score: number;
     note: string;
     date: string;
+    // The "comment or dm them" line; the landing page's sample note hides it
+    showCta?: boolean;
 }
 
-export default function FriendCard({ username, goalName, groupName, score, note, date } : FriendCardProps ){
+export default function FriendCard({ username, goalName, groupName, score, note, date, showCta = true } : FriendCardProps ){
     return (
         <div className="rounded border bg-card-note border-black p-4 flex flex-col gap-3"> 
             {/* Top Row */}
@@ -45,7 +47,7 @@ export default function FriendCard({ username, goalName, groupName, score, note,
             <p className="text-sm">{note}</p>
 
             {/* Comment CTA */}
-            <p className="text-sm text-muted-foreground">comment or dm them</p>
+            {showCta && <p className="text-sm text-muted-foreground">comment or dm them</p>}
         </div>
     )
 }

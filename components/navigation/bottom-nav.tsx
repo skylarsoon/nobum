@@ -18,7 +18,8 @@ function NavItemContent({ name, Icon, isActive }: { name: string; Icon: typeof H
 export default function BottomNav() {
     const pathname = usePathname();
 
-    if (pathname === '/login') return null;
+    // Logged-out pages don't get the app tabs
+    if (pathname === '/login' || pathname === '/signup') return null;
 
     const navItems = [
         { name: "Feed", href: "/", icon: Home },
